@@ -5,12 +5,12 @@ import utils.ArrayUtils;
 
 import java.util.Comparator;
 
-public class RecursiveMergeSorting implements MergeSort {
+public class RecursiveSorting implements Sort {
 
     private final boolean isDebug;
     private Merger merger;
 
-    RecursiveMergeSorting(final boolean isDebug) {
+    RecursiveSorting(final boolean isDebug) {
         this.isDebug = isDebug;
     }
 

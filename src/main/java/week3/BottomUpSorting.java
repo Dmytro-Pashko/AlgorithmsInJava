@@ -5,17 +5,17 @@ import utils.ArrayUtils;
 
 import java.util.Comparator;
 
-public class BottomUpMergeSorting implements MergeSort {
+public class BottomUpSorting implements Sort {
 
     private final boolean isDebug;
     private Comparator comparator;
     private Merger merger;
 
-    BottomUpMergeSorting(final boolean isDebug) {
+    BottomUpSorting(final boolean isDebug) {
         this.isDebug = isDebug;
     }
 
-    BottomUpMergeSorting(final boolean isDebug, Comparator comparator) {
+    BottomUpSorting(final boolean isDebug, Comparator comparator) {
         this.isDebug = isDebug;
         this.comparator = comparator;
     }
