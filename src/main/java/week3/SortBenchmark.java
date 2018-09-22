@@ -2,21 +2,22 @@ package week3;
 
 import edu.princeton.cs.algs4.StdOut;
 
-public class MergeSortBenchmark {
+public class SortBenchmark {
 
     public static void main(String[] args) {
-        new MergeSortBenchmark();
+        new SortBenchmark();
     }
 
-    private MergeSortBenchmark() {
+    private SortBenchmark() {
 //        testRecursiveMergeSort();
 //        testBottomUpMergeSort();
-        testSelectionSort();
+        testInsertionSort();
+//        testSelectionSort();
     }
 
     private void testRecursiveMergeSort() {
         final Sort sort = new RecursiveSorting(false);
-        Comparable[] array = generateSortingArray(100000000);
+        Comparable[] array = generateSortingArray(100000);
         long startTime = System.currentTimeMillis();
         sort.sort(array);
         StdOut.println(String.format("Recursive merge sorting took %d ms.", System.currentTimeMillis() - startTime));
@@ -30,12 +31,20 @@ public class MergeSortBenchmark {
         StdOut.println(String.format("BottomUp merge sorting took %d ms.", System.currentTimeMillis() - startTime));
     }
 
-    private void testSelectionSort() {
-        final Sort sort = new SelectionSort(true);
-        Comparable[] array = generateSortingArray(100000000);
+    private void testInsertionSort() {
+        final Sort sort = new InsertionSort(true);
+        Comparable[] array = generateSortingArray(10);
         long startTime = System.currentTimeMillis();
         sort.sort(array);
-        StdOut.println(String.format("BottomUp merge sorting took %d ms.", System.currentTimeMillis() - startTime));
+        StdOut.println(String.format("Insertion sorting took %d ms.", System.currentTimeMillis() - startTime));
+    }
+
+    private void testSelectionSort() {
+        final Sort sort = new SelectionSort(false);
+        Comparable[] array = generateSortingArray(100000);
+        long startTime = System.currentTimeMillis();
+        sort.sort(array);
+        StdOut.println(String.format("Selection sorting took %d ms.", System.currentTimeMillis() - startTime));
     }
 
     private Comparable[] generateSortingArray(final int size) {

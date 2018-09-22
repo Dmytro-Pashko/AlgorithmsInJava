@@ -1,17 +1,46 @@
 package week3;
 
-public class InsertionSort {
+import edu.princeton.cs.algs4.StdOut;
+import utils.ArrayUtils;
 
-    public static void main(String[] args) {
+import java.util.Comparator;
 
+public class InsertionSort implements Sort {
+
+    private final boolean isDebug;
+
+    InsertionSort(boolean isDebug) {
+        this.isDebug = isDebug;
     }
 
+    @Override
+    public void sort(Object[] array, Comparator comparator) {
+
+        for (int i = 0; i < array.length; i++) {
+
+            for (int j = i; j > 0 && comparator.compare(array[j], array[j - 1]) < 0; j--) {
+                swap(array, j, j - 1);
+                if (isDebug) {
+                    StdOut.println("Sorted array = " + ArrayUtils.getFormattedArray(array));
+                }
+            }
+            if (isDebug) {
+                StdOut.println("Sorted array = " + ArrayUtils.getFormattedArray(array));
+            }
+        }
+    }
 
     public void sort(Comparable[] array) {
         for (int i = 0; i < array.length; i++) {
 
             for (int j = i; j > 0 && isLess(array, j, j - 1); j--) {
                 swap(array, j, j - 1);
+                if (isDebug) {
+                    StdOut.println("Sorted array = " + ArrayUtils.getFormattedArray(array));
+                }
+            }
+            if (isDebug) {
+                StdOut.println("Sorted array = " + ArrayUtils.getFormattedArray(array));
             }
         }
     }
@@ -20,12 +49,9 @@ public class InsertionSort {
         return src[firstIndex].compareTo(src[secondIndex]) < 0;
     }
 
-    private void swap(Comparable[] src, int firstIndex, int secondIndex) {
-        Comparable buf = src[firstIndex];
+    private void swap(Object[] src, int firstIndex, int secondIndex) {
+        Object buf = src[firstIndex];
         src[firstIndex] = src[secondIndex];
         src[secondIndex] = buf;
     }
-
-
-
 }

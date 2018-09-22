@@ -8,16 +8,10 @@ import java.util.Comparator;
 public class BottomUpSorting implements Sort {
 
     private final boolean isDebug;
-    private Comparator comparator;
     private Merger merger;
 
     BottomUpSorting(final boolean isDebug) {
         this.isDebug = isDebug;
-    }
-
-    BottomUpSorting(final boolean isDebug, Comparator comparator) {
-        this.isDebug = isDebug;
-        this.comparator = comparator;
     }
 
     @Override

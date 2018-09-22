@@ -15,7 +15,24 @@ public class SelectionSort implements Sort {
 
     @Override
     public void sort(Object[] array, Comparator comparator) {
-
+        if (comparator == null) {
+            throw new IllegalArgumentException("Comparator must be not null");
+        }
+        for (int i = 0; i < array.length; i++) {
+            int minValueIndex = i;
+            for (int j = i + 1; j < array.length; j++) {
+                if (comparator.compare(array[j], array[minValueIndex]) < 0) {
+                    minValueIndex = j;
+                }
+            }
+            swap(array, i, minValueIndex);
+            if (isDebug) {
+                StdOut.println("Sorted array = " + ArrayUtils.getFormattedArray(array));
+            }
+        }
+        if (isDebug) {
+            StdOut.println("Finish sorted array = " + ArrayUtils.getFormattedArray(array));
+        }
     }
 
     @Override
@@ -31,9 +48,12 @@ public class SelectionSort implements Sort {
                 }
             }
             swap(array, i, minValueIndex);
+            if (isDebug) {
+                StdOut.println("Sorted array = " + ArrayUtils.getFormattedArray(array));
+            }
         }
         if (isDebug) {
-            StdOut.println("Sorted array = " + ArrayUtils.getFormattedArray(array));
+            StdOut.println("Finish sorted array = " + ArrayUtils.getFormattedArray(array));
         }
     }
 
@@ -41,8 +61,8 @@ public class SelectionSort implements Sort {
         return src[firstIndex].compareTo(src[secondIndex]) < 0;
     }
 
-    private void swap(Comparable[] src, int firstIndex, int secondIndex) {
-        Comparable buf = src[firstIndex];
+    private void swap(Object[] src, int firstIndex, int secondIndex) {
+        Object buf = src[firstIndex];
         src[firstIndex] = src[secondIndex];
         src[secondIndex] = buf;
     }
