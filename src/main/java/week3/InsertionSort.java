@@ -34,13 +34,11 @@ public class InsertionSort implements Sort {
         for (int i = 0; i < array.length; i++) {
 
             for (int j = i; j > 0 && isLess(array, j, j - 1); j--) {
+                System.out.println("swaping " + array[j] + " and " + array[j-1]);
                 swap(array, j, j - 1);
                 if (isDebug) {
                     StdOut.println("Sorted array = " + ArrayUtils.getFormattedArray(array));
                 }
-            }
-            if (isDebug) {
-                StdOut.println("Sorted array = " + ArrayUtils.getFormattedArray(array));
             }
         }
     }
