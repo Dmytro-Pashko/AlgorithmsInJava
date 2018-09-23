@@ -1,6 +1,7 @@
 package week3.colinear;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class BruteCollinearPoints {
@@ -12,13 +13,13 @@ public class BruteCollinearPoints {
      * if any point in the array is null, or if the argument to the constructor contains a repeated point.
      */
     public BruteCollinearPoints(Point[] points) {
-        calculateSegments(getPointsList(points));
-    }
-
-    private List<Point> getPointsList(Point[] points) {
         if (points == null) {
             throw new IllegalArgumentException();
         }
+        calculateSegments(getPointsList(points));
+    }
+
+    private List<Point> getPointsList(final Point[] points) {
         ArrayList<Point> list = new ArrayList<>();
         for (Point point : points) {
             if (point == null) {
@@ -30,6 +31,7 @@ public class BruteCollinearPoints {
                 throw new IllegalArgumentException("Points can't be duplicates.");
             }
         }
+        Collections.sort(list);
         return list;
     }
 

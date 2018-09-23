@@ -11,7 +11,7 @@ public class Loader {
 
     public static void main(String[] args) throws FileNotFoundException {
 
-        String file = ResourceLoader.loadResource("colinear/horizontal25.txt");
+        String file = ResourceLoader.loadResource("colinear/input400.txt");
         In in = new In(file);
         int n = in.readInt();
         Point[] points = new Point[n];
@@ -31,7 +31,11 @@ public class Loader {
         StdDraw.show();
 
         // print and draw the line segments
+
+        long startTime = System.currentTimeMillis();
         BruteCollinearPoints collinear = new BruteCollinearPoints(points);
+        StdOut.println(String.format("Calculation take=%d ms", System.currentTimeMillis() - startTime));
+
         for (LineSegment segment : collinear.segments()) {
             StdOut.println(segment);
             segment.draw();
