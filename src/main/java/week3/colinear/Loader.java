@@ -7,12 +7,21 @@ import utils.ResourceLoader;
 
 import java.io.FileNotFoundException;
 
+/**
+ * Implementation of task:
+ * http://coursera.cs.princeton.edu/algs4/assignments/collinear.html
+ */
 public class Loader {
 
     public static void main(String[] args) throws FileNotFoundException {
-
         String file = ResourceLoader.loadResource("colinear/input400.txt");
         In in = new In(file);
+        Point[] points = readPoints(in);
+        drawPoints(points);
+        startBruteCollinear(points);
+    }
+
+    private static Point[] readPoints(In in) {
         int n = in.readInt();
         Point[] points = new Point[n];
         for (int i = 0; i < n; i++) {
@@ -20,18 +29,10 @@ public class Loader {
             int y = in.readInt();
             points[i] = new Point(x, y);
         }
+        return points;
+    }
 
-        // draw the points
-        StdDraw.enableDoubleBuffering();
-        StdDraw.setXscale(0, 32768);
-        StdDraw.setYscale(0, 32768);
-        for (Point p : points) {
-            p.draw();
-        }
-        StdDraw.show();
-
-        // print and draw the line segments
-
+    private static void startBruteCollinear(Point[] points) {
         long startTime = System.currentTimeMillis();
         BruteCollinearPoints collinear = new BruteCollinearPoints(points);
         StdOut.println(String.format("Calculation take=%d ms", System.currentTimeMillis() - startTime));
@@ -41,6 +42,16 @@ public class Loader {
             segment.draw();
         }
         StdOut.println("Segments count=" + collinear.numberOfSegments());
+        StdDraw.show();
+    }
+
+    private static void drawPoints(Point[] points) {
+        StdDraw.enableDoubleBuffering();
+        StdDraw.setXscale(0, 32768);
+        StdDraw.setYscale(0, 32768);
+        for (Point p : points) {
+            p.draw();
+        }
         StdDraw.show();
     }
 }
