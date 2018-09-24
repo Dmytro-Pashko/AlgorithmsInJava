@@ -14,11 +14,12 @@ import java.io.FileNotFoundException;
 public class Loader {
 
     public static void main(String[] args) throws FileNotFoundException {
-        String file = ResourceLoader.loadResource("colinear/input400.txt");
+        String file = ResourceLoader.loadResource("colinear/input8.txt");
         In in = new In(file);
         Point[] points = readPoints(in);
         drawPoints(points);
-        startBruteCollinear(points);
+//        startBruteCollinear(points);
+        startFastCollinear(points);
     }
 
     private static Point[] readPoints(In in) {
@@ -44,6 +45,20 @@ public class Loader {
         StdOut.println("Segments count=" + collinear.numberOfSegments());
         StdDraw.show();
     }
+
+    private static void startFastCollinear(Point[] points) {
+        long startTime = System.currentTimeMillis();
+        FastCollinearPoints collinear = new FastCollinearPoints(points);
+        StdOut.println(String.format("Calculation take=%d ms", System.currentTimeMillis() - startTime));
+
+        for (LineSegment segment : collinear.segments()) {
+            StdOut.println(segment);
+            segment.draw();
+        }
+        StdOut.println("Segments count=" + collinear.numberOfSegments());
+        StdDraw.show();
+    }
+
 
     private static void drawPoints(Point[] points) {
         StdDraw.enableDoubleBuffering();
