@@ -1,13 +1,10 @@
 package week3.colinear;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class FastCollinearPoints {
 
-    private ArrayList<LineSegment> segments;
+    private LineSegment[] segments;
 
     /**
      * Corner cases. Throw a java.lang.IllegalArgumentException if the argument to the constructor is null,
@@ -31,7 +28,6 @@ public class FastCollinearPoints {
 
         //Sorting
         Arrays.sort(aux);
-        //Check duplicates.
         for (int i = 0; i < aux.length - 1; i++) {
             if (aux[i].compareTo(aux[i + 1]) == 0) {
                 throw new IllegalArgumentException("Points can't be duplicates.");
@@ -41,57 +37,47 @@ public class FastCollinearPoints {
     }
 
     private void calculateSegments(Point[] points) {
-        segments = new ArrayList<>();
-
-        for (int i = 0; i < points.length - 1; i++) {
-            Point current = points[i];
-            //Sort next points in list by slope according to current point.
+        List<LineSegment> maxLineSegments = new ArrayList<>();
+        for (Point current : points) {
             Point[] pointsBySlope = points.clone();
             Arrays.sort(pointsBySlope, current.slopeOrder());
-            calculateCollinearPoints(current, pointsBySlope);
+            maxLineSegments.addAll(calculateCollinearPoints(current, pointsBySlope));
         }
+        segments = maxLineSegments.toArray(new LineSegment[0]);
     }
 
     /**
      * Calculate points with the same slope to current point.
      * Creating Segment when list of points with the same slope have more that 3 items.
      */
-    private void calculateCollinearPoints(Point current, Point[] pointsSortedBySlope) {
-        List<Point> slopePoints = new ArrayList<>();
+    private List<LineSegment> calculateCollinearPoints(Point current, Point[] pointsBySlope) {
+        List<LineSegment> segments = new ArrayList<>();
+        int x = 1;
+        while (x < pointsBySlope.length) {
 
-        double prevSlope = Double.NEGATIVE_INFINITY;
+            LinkedList<Point> candidates = new LinkedList<>();
+            final double SLOPE_REF = current.slopeTo(pointsBySlope[x]);
+            do {
+                candidates.add(pointsBySlope[x++]);
+            } while (x < pointsBySlope.length && current.slopeTo(pointsBySlope[x]) == SLOPE_REF);
 
-        for (int j = 1; j < pointsSortedBySlope.length; j++) {
-
-            double slope = current.slopeTo(pointsSortedBySlope[j]);
-            //if slope the same as prev point slope.
-            if (slope == prevSlope) {
-                slopePoints.add(pointsSortedBySlope[j]);
-            } else {
-                if (slopePoints.size() >= 3) {
-                    createSegment(current, slopePoints);
-                }
-                slopePoints.clear();
-                slopePoints.add(pointsSortedBySlope[j]);
+            if (candidates.size() >= 3
+                    && current.compareTo(candidates.peek()) < 0) {
+                Point min = current;
+                Point max = candidates.removeLast();
+                segments.add(new LineSegment(min, max));
             }
-            prevSlope = slope;
         }
-        if (slopePoints.size() >= 3) {
-            createSegment(current, slopePoints);
-        }
-    }
-
-    private void createSegment(Point current, List<Point> points) {
-
+        return segments;
     }
 
     // the number of line segments
     public int numberOfSegments() {
-        return segments.size();
+        return segments.length;
     }
 
     // the line segments
     public LineSegment[] segments() {
-        return segments.toArray(new LineSegment[0]);
+        return segments;
     }
 }
